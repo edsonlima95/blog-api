@@ -9,7 +9,9 @@ export default class Profile extends BaseModel {
   @column()
   public admin: boolean
 
-  @belongsTo(() => User)
+  @belongsTo(() => User, {
+    foreignKey: 'user_id'
+  })
   public user: BelongsTo<typeof User>
 
   @column()

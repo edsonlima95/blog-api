@@ -14,13 +14,15 @@ export default class User extends BaseModel {
   @column()
   public email: string
 
-  @column({ serializeAs: null })
+  @column()
   public password: string
 
   @column()
   public image?: string
 
-  @hasOne(() => Profile)
+  @hasOne(() => Profile, {
+    foreignKey: 'user_id'
+  })
   public profile: HasOne<typeof Profile>
 
   @column()
