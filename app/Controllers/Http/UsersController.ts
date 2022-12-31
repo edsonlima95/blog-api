@@ -20,7 +20,7 @@ export default class UsersController {
       .preload('profile')
       .paginate(current_page, limit_per_page)
 
-    return response.json({ users })
+    return response.json(users)
 
   }
 
