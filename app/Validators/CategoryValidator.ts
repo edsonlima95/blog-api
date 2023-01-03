@@ -15,6 +15,6 @@ export default class CategoryValidator {
   
   public messages: CustomMessages = {
 
-    'name': "O campo nome é obrigatório",
+    'name.required': "O campo nome é obrigatório",
   }
 }
