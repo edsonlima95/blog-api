@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
+import { column, beforeSave, BaseModel, hasOne, HasOne, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Profile from './Profile'
+import Post from './Post'
 
 export default class User extends BaseModel {
 
@@ -24,6 +25,11 @@ export default class User extends BaseModel {
     foreignKey: 'user_id'
   })
   public profile: HasOne<typeof Profile>
+
+  @hasMany(() => Post,  {
+    foreignKey: 'user_id'
+  })
+  public posts: HasMany<typeof Post>
 
   @column()
   public rememberMeToken: string | null

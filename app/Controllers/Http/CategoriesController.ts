@@ -5,14 +5,12 @@ import CategoryValidator from 'App/Validators/CategoryValidator'
 export default class CategoriesController {
 
 
-  public async index({ request, response }: HttpContextContract) {
+  public async index({ response }: HttpContextContract) {
 
-    const { page, per_page } = request.qs()
+    const categories = await Category.query()
+      .preload('posts')
+      .orderBy('id', 'desc')
 
-    const current_page = page ? page : 1
-    const limit_per_page = per_page ? per_page : 100
-
-    const categories = await Category.query().paginate(current_page, limit_per_page)
 
     return response.json(categories)
 
@@ -48,12 +46,14 @@ export default class CategoriesController {
   public async update({ params, response, request }: HttpContextContract) {
 
     try {
-      
+
       const category = await Category.findOrFail(params.id)
 
       const data = await request.validate(CategoryValidator)
 
       await category.merge(data).save()
+
+
 
       return response.json({ message: "Categoria atualizada com sucesso" })
 
@@ -72,7 +72,10 @@ export default class CategoriesController {
       const category = await Category.findOrFail(params.id)
 
       await category.delete()
-      return response.json({ message: "Categoria deletada com sucesso" })
+
+      const categories = await Category.query().orderBy('id', 'desc')
+
+      return response.json({ categories, message: "Categoria deletada com sucesso" })
 
     } catch {
 
